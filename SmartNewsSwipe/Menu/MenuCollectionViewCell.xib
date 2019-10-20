@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="MenuCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="247" height="69"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="247" height="69"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XUD-PT-QSc">
+                        <rect key="frame" x="2" y="6" width="243" height="63"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jjm-Mu-pv4">
+                                <rect key="frame" x="0.0" y="23.5" width="243" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="jjm-Mu-pv4" firstAttribute="leading" secondItem="XUD-PT-QSc" secondAttribute="leading" id="H38-Hi-ctJ"/>
+                            <constraint firstItem="jjm-Mu-pv4" firstAttribute="centerX" secondItem="XUD-PT-QSc" secondAttribute="centerX" id="UPx-xu-c8c"/>
+                            <constraint firstItem="jjm-Mu-pv4" firstAttribute="centerY" secondItem="XUD-PT-QSc" secondAttribute="centerY" id="sUY-Z2-07O"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="XUD-PT-QSc" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="2" id="1wh-oM-CZJ"/>
+                <constraint firstAttribute="bottom" secondItem="XUD-PT-QSc" secondAttribute="bottom" id="P4C-Hx-BBa"/>
+                <constraint firstAttribute="trailing" secondItem="XUD-PT-QSc" secondAttribute="trailing" constant="2" id="u01-Xh-gsB"/>
+                <constraint firstItem="XUD-PT-QSc" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="6" id="wb7-J1-dgw"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="SEy-5g-ep8"/>
+            <size key="customSize" width="247" height="69"/>
+            <connections>
+                <outlet property="bgView" destination="XUD-PT-QSc" id="m8w-D0-T1u"/>
+                <outlet property="titleLabel" destination="jjm-Mu-pv4" id="ZA9-gJ-G5A"/>
+                <outlet property="topConstraint" destination="wb7-J1-dgw" id="mYZ-mM-26y"/>
+            </connections>
+            <point key="canvasLocation" x="-5.0724637681159424" y="134.26339285714286"/>
+        </collectionViewCell>
+    </objects>
+</document>
