@@ -10,9 +10,19 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class ContentViewController;
+
+@protocol ContentViewControllerDelegate <NSObject>
+
+- (void)contentViewControllerViewWillAppear:(ContentViewController *)contentViewController;
+
+@end
+
 @interface ContentViewController : UIViewController
 
 @property (nonatomic, assign) NSInteger index;
+
+@property (nonatomic, weak) id<ContentViewControllerDelegate>delegate;
 
 @end
 

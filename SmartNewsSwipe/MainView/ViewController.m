@@ -12,11 +12,14 @@
 #import "ContentViewController.h"
 #import "ViewModelManager.h"
 
-@interface ViewController () <MenuViewControllerDelegate, PageViewControllerDelegate>
+@interface ViewController () <MenuViewControllerDelegate, PageViewControllerDelegate,
+ContentViewControllerDelegate>
 
 @property (nonatomic, strong) MenuViewController *menuVC;
 @property (nonatomic, strong) PageViewController *pageVC;
 @property (nonatomic, assign) NSInteger defaultIndex;
+
+@property (nonatomic, strong) NSCache *vcCache;
 
 @end
 
@@ -24,6 +27,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.vcCache = [[NSCache alloc] init];
     
     self.menuVC.delegate = self;
     self.pageVC.pageDelegate = self;
@@ -39,6 +44,29 @@
     [self.menuVC focusCellAtIndex:[NSIndexPath indexPathForRow:self.defaultIndex inSection:0]];
 }
 
+- (void)dealloc {
+    [self.vcCache removeAllObjects];
+}
+
+- (UIViewController *)viewControllerAtIndex:(NSInteger)index {
+    UIViewController *cachedVC = [self.vcCache objectForKey:@(index)];
+    if (cachedVC) {
+        return cachedVC;
+    }
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ContentViewController" bundle:nil];
+    UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ContentViewController"];
+    ContentViewController *contentVC = (ContentViewController *)vc;
+    contentVC.index = index;
+    contentVC.delegate = self;
+    [self.vcCache setObject:vc forKey:@(index)];
+    return vc;
+}
+
+- (void)contentViewControllerViewWillAppear:(ContentViewController *)contentViewController {
+    [self.menuVC focusCellAtIndex:[NSIndexPath indexPathForRow:contentViewController.index inSection:0]];
+}
+
 #pragma mark - MenuViewControllerDelegate
 
 - (void)menuViewController:(MenuViewController *)menuViewController selectedIndex:(NSInteger)index {
@@ -50,10 +78,6 @@
     
     UIPageViewControllerNavigationDirection direction = currentIndex < index ? UIPageViewControllerNavigationDirectionForward : UIPageViewControllerNavigationDirectionReverse;
     UIViewController *vc = [self pageViewController:self.pageVC viewControllerAtIndex:index];
-    if ([vc respondsToSelector:@selector(resetUIs)]) {
-        [vc performSelector:@selector(resetUIs)];
-    }
-    
     [self.pageVC setViewControllers:@[vc] direction:direction animated:YES completion:nil];
 }
 
@@ -67,17 +91,9 @@
 
 #pragma mark - PageViewControllerDelegate
 
-- (void)pageViewController:(PageViewController *)pageViewController changedIndex:(NSInteger)index {
-    [self.menuVC focusCellAtIndex:[NSIndexPath indexPathForRow:index inSection:0]];
-}
-
 - (UIViewController *)pageViewController:(PageViewController *)pageViewController
                    viewControllerAtIndex:(NSInteger)index {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ContentViewController" bundle:nil];
-    UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ContentViewController"];
-    ContentViewController *contentVC = (ContentViewController *)vc;
-    contentVC.index = index;
-    return vc;
+    return [self viewControllerAtIndex:index];
 }
 
 - (NSInteger)pageViewController:(PageViewController *)pageViewController

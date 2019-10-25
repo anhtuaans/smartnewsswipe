@@ -40,23 +40,4 @@
     return [self.pageDelegate pageViewController:self viewControllerAtIndex:nextIndex];
 }
 
-- (void)pageViewController:(UIPageViewController *)pageViewController
-        didFinishAnimating:(BOOL)finished
-   previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {
-    UIViewController *currentVC = self.viewControllers.firstObject;
-    NSInteger index = [self.pageDelegate pageViewController:self indexOfViewController:currentVC];
-    if ([self.pageDelegate respondsToSelector:@selector(pageViewController:changedIndex:)]) {
-        [self.pageDelegate pageViewController:self changedIndex:index];
-    }
-}
-
-- (void)pageViewController:(UIPageViewController *)pageViewController
-willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewControllers {
-    for (UIViewController *vc in pendingViewControllers) {
-        if ([vc respondsToSelector:@selector(resetUIs)]) {
-            [vc performSelector:@selector(resetUIs)];
-        }
-    }
-}
-
 @end

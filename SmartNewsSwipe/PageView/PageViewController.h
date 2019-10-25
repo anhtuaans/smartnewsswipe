@@ -24,7 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
                    viewControllerAtIndex:(NSInteger)index;
 - (NSInteger)pageViewController:(PageViewController *)pageViewController
           indexOfViewController:(UIViewController *)viewController;
-- (void)pageViewController:(PageViewController *)pageViewController changedIndex:(NSInteger)index;
 - (NSInteger)numberOfPagesInPageViewController:(PageViewController *)pageViewController;
 
 @end
