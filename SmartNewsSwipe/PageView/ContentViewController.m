@@ -28,14 +28,6 @@
     self.contentLabel.text = ViewModelManager.sharedInstance.menuData[self.index].content;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    if ([self.delegate respondsToSelector:@selector(contentViewControllerViewWillAppear:)]) {
-        [self.delegate contentViewControllerViewWillAppear:self];
-    }
-}
-
 - (void)dealloc {
     NSLog(@"ContentViewController dealloc");
 }

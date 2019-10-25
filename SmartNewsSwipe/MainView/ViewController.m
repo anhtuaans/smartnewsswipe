@@ -12,8 +12,7 @@
 #import "ContentViewController.h"
 #import "ViewModelManager.h"
 
-@interface ViewController () <MenuViewControllerDelegate, PageViewControllerDelegate,
-ContentViewControllerDelegate>
+@interface ViewController () <MenuViewControllerDelegate, PageViewControllerDelegate>
 
 @property (nonatomic, strong) MenuViewController *menuVC;
 @property (nonatomic, strong) PageViewController *pageVC;
@@ -58,13 +57,8 @@ ContentViewControllerDelegate>
     UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ContentViewController"];
     ContentViewController *contentVC = (ContentViewController *)vc;
     contentVC.index = index;
-    contentVC.delegate = self;
     [self.vcCache setObject:vc forKey:@(index)];
     return vc;
-}
-
-- (void)contentViewControllerViewWillAppear:(ContentViewController *)contentViewController {
-    [self.menuVC focusCellAtIndex:[NSIndexPath indexPathForRow:contentViewController.index inSection:0]];
 }
 
 #pragma mark - MenuViewControllerDelegate
@@ -112,6 +106,19 @@ ContentViewControllerDelegate>
     } else if ([segue.identifier isEqualToString:@"page_segue"]) {
         self.pageVC = segue.destinationViewController;
     }
+}
+
+- (void)pageViewController:(PageViewController *)pageViewController
+              changedIndex:(NSInteger)index {
+    [self.menuVC focusCellAtIndex:[NSIndexPath indexPathForRow:index inSection:0]];
+}
+
+- (void)pageViewControllerBeginDragging:(PageViewController *)pageViewController {
+    self.menuVC.view.userInteractionEnabled = NO;
+}
+
+- (void)pageViewControllerEndDecelerating:(PageViewController *)pageViewController {
+    self.menuVC.view.userInteractionEnabled = YES;
 }
 
 @end

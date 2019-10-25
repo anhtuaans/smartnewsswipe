@@ -26,6 +26,11 @@ NS_ASSUME_NONNULL_BEGIN
           indexOfViewController:(UIViewController *)viewController;
 - (NSInteger)numberOfPagesInPageViewController:(PageViewController *)pageViewController;
 
+- (void)pageViewController:(PageViewController *)pageViewController
+              changedIndex:(NSInteger)index;
+- (void)pageViewControllerBeginDragging:(PageViewController *)pageViewController;
+- (void)pageViewControllerEndDecelerating:(PageViewController *)pageViewController;
+
 @end
 
 @interface PageViewController : UIPageViewController
