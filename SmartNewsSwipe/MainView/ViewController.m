@@ -74,10 +74,13 @@
     UIPageViewControllerNavigationDirection direction = currentIndex < index ? UIPageViewControllerNavigationDirectionForward : UIPageViewControllerNavigationDirectionReverse;
     UIViewController *vc = [self pageViewController:self.pageVC viewControllerAtIndex:index];
     
+    // Prevent to tap on menu and swipe page when animation is running
     [self.pageVC setScrollEnable:NO];
+    self.menuVC.view.userInteractionEnabled = NO;
     __weak typeof(self) weakSelf = self;
     [self.pageVC setViewControllers:@[vc] direction:direction animated:YES completion:^(BOOL finished) {
         [weakSelf.pageVC setScrollEnable:YES];
+        weakSelf.menuVC.view.userInteractionEnabled = YES;
         NSLog(@"finished %@", @(finished));
     }];
 }

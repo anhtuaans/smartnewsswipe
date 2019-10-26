@@ -84,10 +84,6 @@ UIScrollViewDelegate>
     return [self.pageDelegate pageViewController:self viewControllerAtIndex:prevIndex];
 }
 
-- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {
-    
-}
-
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
     NSInteger nextIndex = [self.pageDelegate pageViewController:self indexOfViewController:viewController] + 1;
 
