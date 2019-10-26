@@ -82,7 +82,9 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     }
     
     self.selectedIndex = indexPath.row;
-    [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    [self.collectionView scrollToItemAtIndexPath:indexPath
+                                atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
+                                        animated:YES];
 }
 
 @end

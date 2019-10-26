@@ -10,12 +10,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol PageContentViewControllerDelegate <NSObject>
-
-- (void)resetUIs;
-
-@end
-
 @class PageViewController;
 
 @protocol PageViewControllerDelegate <NSObject>
@@ -36,6 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PageViewController : UIPageViewController
 
 @property (nonatomic, weak)id<PageViewControllerDelegate> pageDelegate;
+
+- (void)setScrollEnable:(BOOL)enabled;
 
 @end
 

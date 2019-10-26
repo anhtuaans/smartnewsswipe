@@ -12,6 +12,7 @@
 @interface PageViewController () <UIPageViewControllerDataSource, UIPageViewControllerDelegate,
 UIScrollViewDelegate>
 
+@property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, assign) CGFloat prevOffset;
 @property (nonatomic, assign) NSInteger pageIndex;
 
@@ -22,19 +23,42 @@ UIScrollViewDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidEnterBackground:)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+    
     self.dataSource = self;
     self.delegate = self;
     
     for (UIView *subview in self.view.subviews) {
         if ([subview isKindOfClass:[UIScrollView class]]) {
-            UIScrollView *scrollView = (UIScrollView *)subview;
-            scrollView.delegate = self;
+            self.scrollView = (UIScrollView *)subview;
+            self.scrollView.delegate = self;
             return;
         }
     }
     
     self.prevOffset = 0;
 }
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark - Public methods
+
+- (void)setScrollEnable:(BOOL)enabled {
+    self.scrollView.scrollEnabled = enabled;
+}
+
+#pragma mark - Observer
+
+- (void)applicationDidEnterBackground:(NSNotification *)notification {
+    [self.pageDelegate pageViewControllerEndDecelerating:self];
+}
+
+#pragma mark - Override methods
 
 - (void)setViewControllers:(NSArray<UIViewController *> *)viewControllers
                  direction:(UIPageViewControllerNavigationDirection)direction
@@ -47,6 +71,8 @@ UIScrollViewDelegate>
     self.pageIndex = [self.pageDelegate pageViewController:self
                                      indexOfViewController:viewControllers.firstObject];
 }
+
+#pragma mark - UIPageViewControllerDataSource
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
     NSInteger prevIndex = [self.pageDelegate pageViewController:self indexOfViewController:viewController] - 1;
@@ -104,14 +130,18 @@ UIScrollViewDelegate>
         (self.prevOffset < -pageWidthHalf && offset >= -pageWidthHalf)) {
         NSLog(@"page up");
         self.pageIndex += 1;
-        [self.pageDelegate pageViewController:self
-                                 changedIndex:self.pageIndex];
+        if (self.pageIndex < [self.pageDelegate numberOfPagesInPageViewController:self]) {
+            [self.pageDelegate pageViewController:self
+                                     changedIndex:self.pageIndex];
+        }
     } else if ((self.prevOffset > -pageWidthHalf && offset <= -pageWidthHalf) ||
                (self.prevOffset > pageWidthHalf && offset <= pageWidthHalf)) {
         NSLog(@"page down");
         self.pageIndex -= 1;
-        [self.pageDelegate pageViewController:self
-                                 changedIndex:self.pageIndex];
+        if (self.pageIndex >= 0) {
+            [self.pageDelegate pageViewController:self
+                                     changedIndex:self.pageIndex];
+        }
     }
     self.prevOffset = offset;
 }

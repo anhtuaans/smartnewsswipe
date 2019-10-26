@@ -63,7 +63,8 @@
 
 #pragma mark - MenuViewControllerDelegate
 
-- (void)menuViewController:(MenuViewController *)menuViewController selectedIndex:(NSInteger)index {
+- (void)menuViewController:(MenuViewController *)menuViewController
+             selectedIndex:(NSInteger)index {
     UIViewController *currentVC = self.pageVC.viewControllers.firstObject;
     NSInteger currentIndex = [self pageViewController:self.pageVC indexOfViewController:currentVC];
     if (index == currentIndex) {
@@ -72,7 +73,13 @@
     
     UIPageViewControllerNavigationDirection direction = currentIndex < index ? UIPageViewControllerNavigationDirectionForward : UIPageViewControllerNavigationDirectionReverse;
     UIViewController *vc = [self pageViewController:self.pageVC viewControllerAtIndex:index];
-    [self.pageVC setViewControllers:@[vc] direction:direction animated:YES completion:nil];
+    
+    [self.pageVC setScrollEnable:NO];
+    __weak typeof(self) weakSelf = self;
+    [self.pageVC setViewControllers:@[vc] direction:direction animated:YES completion:^(BOOL finished) {
+        [weakSelf.pageVC setScrollEnable:YES];
+        NSLog(@"finished %@", @(finished));
+    }];
 }
 
 - (NSInteger)numberOfTabsInMenuViewController:(MenuViewController *)menuViewController {

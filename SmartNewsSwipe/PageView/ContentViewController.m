@@ -10,7 +10,7 @@
 #import "ViewModelManager.h"
 #import "PageViewController.h"
 
-@interface ContentViewController () <PageContentViewControllerDelegate, UITableViewDataSource>
+@interface ContentViewController () <UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *contentLabel;
@@ -30,13 +30,6 @@
 
 - (void)dealloc {
     NSLog(@"ContentViewController dealloc");
-}
-
-- (void)resetUIs {
-    [self.tableView reloadData];
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
-                          atScrollPosition:UITableViewScrollPositionTop
-                                  animated:NO];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
