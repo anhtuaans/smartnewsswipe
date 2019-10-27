@@ -23,11 +23,6 @@ UIScrollViewDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationDidEnterBackground:)
-                                                 name:UIApplicationDidEnterBackgroundNotification
-                                               object:nil];
-    
     self.dataSource = self;
     self.delegate = self;
     
@@ -50,12 +45,6 @@ UIScrollViewDelegate>
 
 - (void)setScrollEnable:(BOOL)enabled {
     self.scrollView.scrollEnabled = enabled;
-}
-
-#pragma mark - Observer
-
-- (void)applicationDidEnterBackground:(NSNotification *)notification {
-    [self.pageDelegate pageViewControllerEndDecelerating:self];
 }
 
 #pragma mark - Override methods
@@ -95,18 +84,6 @@ UIScrollViewDelegate>
 }
 
 #pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    [self.pageDelegate pageViewControllerBeginDragging:self];
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    NSLog(@"scrollViewDidEndDragging %@", @(decelerate));
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    [self.pageDelegate pageViewControllerEndDecelerating:self];
-}
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     CGFloat pageWidth = self.view.frame.size.width;

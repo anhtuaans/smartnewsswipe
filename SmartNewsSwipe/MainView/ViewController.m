@@ -79,6 +79,10 @@
     self.menuVC.view.userInteractionEnabled = NO;
     __weak typeof(self) weakSelf = self;
     [self.pageVC setViewControllers:@[vc] direction:direction animated:YES completion:^(BOOL finished) {
+        // https://stackoverflow.com/questions/48859134/ios-uipageviewcontroller-gets-confused-and-viewcontrollers-are-not-displayed
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [weakSelf.pageVC setViewControllers:@[vc] direction:direction animated:NO completion:nil];
+        });
         [weakSelf.pageVC setScrollEnable:YES];
         weakSelf.menuVC.view.userInteractionEnabled = YES;
         NSLog(@"finished %@", @(finished));
@@ -121,14 +125,6 @@
 - (void)pageViewController:(PageViewController *)pageViewController
               changedIndex:(NSInteger)index {
     [self.menuVC focusCellAtIndex:[NSIndexPath indexPathForRow:index inSection:0]];
-}
-
-- (void)pageViewControllerBeginDragging:(PageViewController *)pageViewController {
-    self.menuVC.view.userInteractionEnabled = NO;
-}
-
-- (void)pageViewControllerEndDecelerating:(PageViewController *)pageViewController {
-    self.menuVC.view.userInteractionEnabled = YES;
 }
 
 @end

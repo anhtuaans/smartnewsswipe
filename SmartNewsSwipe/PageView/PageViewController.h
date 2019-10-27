@@ -22,8 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)pageViewController:(PageViewController *)pageViewController
               changedIndex:(NSInteger)index;
-- (void)pageViewControllerBeginDragging:(PageViewController *)pageViewController;
-- (void)pageViewControllerEndDecelerating:(PageViewController *)pageViewController;
 
 @end
 
